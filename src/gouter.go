@@ -1,14 +1,26 @@
 package gouter
 
-import (
-	"reflect"
-)
-
-func Call(any interface{}, name string, args... interface{}) {
-	inputs := make([]reflect.Value, len(args))
-	for i, _ := range args {
-		inputs[i] = reflect.ValueOf(args[i])
-	}
-	reflect.ValueOf(any).MethodByName(name).Call(inputs)
+type Gouter struct {
+	routes map[string]Gout
+}
+type Gout struct {
+	Controller interface{}
+	Method     string
 }
 
+func New() *Gouter {
+	return &Gouter{
+		routes: make(map[string]Gout),
+	}
+}
+
+func (g *Gouter) Add(rout string, controller interface{}, method string) {
+	g.routes[rout] = Gout{
+		Controller: controller,
+		Method:     method,
+	}
+}
+func (g *Gouter) Run(rout string) {
+	gout := g.routes[rout]
+	Call(gout.Controller, gout.Method)
+}

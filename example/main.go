@@ -1,17 +1,20 @@
 package main
 
-import(
+import (
 	"fmt"
 	"github.com/earlcherry/gouter/src"
 )
 
-
 func main() {
-	gouter.Call(YourStruct{}, "Method","Yep, its work!")
+	g := gouter.New()
+	g.Add("test", YourStruct{},"Method")
+	g.Add("test23", YourStruct{},"")
+	g.Add("test3", YourStruct{},"")
+	g.Run("test")
 }
 
 type YourStruct struct{}
 
-func (y YourStruct) Method(test string) {
-	fmt.Printf(test)
+func (y YourStruct) Method() {
+	fmt.Printf("Yep, its work!")
 }
