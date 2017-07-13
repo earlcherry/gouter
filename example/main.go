@@ -3,33 +3,23 @@ package main
 import (
 	"fmt"
 	"github.com/earlcherry/gouter/src"
-	"os"
-	"reflect"
 )
 
 func main() {
-	args := os.Args[1:]
 	g := gouter.New()
-	g.Add("test", YourStruct{}, "Method")
-	g.Add("test23", YourStruct{}, "")
-	g.Add("test3", YourStruct{}, "")
-
-	inputs := make([]reflect.Value, len(args))
-	for i := 0; i < len(args); i++ {
-		inputs[i] = reflect.ValueOf(args[i])
+	g.Add("ololo", YourStruct{})
+	g.Add("test23", YourStruct{})
+	g.Add("test3", YourStruct{})
+	err:= g.Run("test234")
+	if err!= nil{
+		fmt.Printf(err.Error())
 	}
-	if len(inputs) < 2 {
-		panic("Not enough arguments")
-	}
-
-	reflect.ValueOf(g).MethodByName("Run").Call(inputs)
 }
 
-type YourStruct struct{}
+type YourStruct struct {
+	Text string
+}
 
-func (y YourStruct) Method(a string, b string, c string) {
-	fmt.Printf(a)
-	fmt.Printf(b)
-	fmt.Printf(c)
-	fmt.Printf("Yep, its work!")
+func (y YourStruct) Run()  {
+	fmt.Printf("Yep, its work!",y.Text)
 }
