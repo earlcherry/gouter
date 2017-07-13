@@ -1,5 +1,5 @@
 package gouter
 
 type Goute interface {
-	Run()
+	Run(args Args) error
 }
